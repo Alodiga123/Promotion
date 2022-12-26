@@ -1,0 +1,115 @@
+{
+  "name": "Promotion",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "minlength",
+        "maxlength",
+        "required"
+      ],
+      "fieldValidateRulesMinlength": "5",
+      "fieldValidateRulesMaxlength": "45"
+    },
+    {
+      "fieldName": "promotionType",
+      "fieldType": "PromotionType",
+      "fieldValues": "REFERRED,BIRTHDAY,FREQUENT,BY_PRODUCT,REGISTRATION",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "creationDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "responsibleDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "beginningDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "endingDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "isExclusive",
+      "fieldType": "Boolean",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "priority",
+      "fieldType": "Integer",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "promotionalText",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "enabled",
+      "fieldType": "Boolean",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "isPercent",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "imagen",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "isAmount",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "value",
+      "fieldType": "Float",
+      "fieldValidateRules": [
+        "min",
+        "max",
+        "required"
+      ],
+      "fieldValidateRulesMin": "0",
+      "fieldValidateRulesMax": "5"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "currency",
+      "otherEntityRelationshipName": "promotion",
+      "relationshipName": "currency",
+      "otherEntityField": "simbol"
+    }
+  ],
+  "changelogDate": "20221226215148",
+  "entityTableName": "promotion",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

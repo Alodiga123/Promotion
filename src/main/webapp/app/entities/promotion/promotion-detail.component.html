@@ -1,0 +1,93 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="promotion">
+            <h2><span jhiTranslate="promotionsApp.promotion.detail.title">Promotion</span> {{ promotion.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="promotionsApp.promotion.name">Name</span></dt>
+                <dd>
+                    <span>{{ promotion.name }}</span>
+                </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.promotionType">Promotion Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'promotionsApp.PromotionType.' + promotion.promotionType }}">{{ promotion.promotionType }}</span>
+                </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.creationDate">Creation Date</span></dt>
+                <dd>
+                    <span>{{ promotion.creationDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.responsibleDate">Responsible Date</span></dt>
+                <dd>
+                    <span>{{ promotion.responsibleDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.beginningDate">Beginning Date</span></dt>
+                <dd>
+                    <span>{{ promotion.beginningDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.endingDate">Ending Date</span></dt>
+                <dd>
+                    <span>{{ promotion.endingDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.isExclusive">Is Exclusive</span></dt>
+                <dd>
+                    <span>{{ promotion.isExclusive }}</span>
+                </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.priority">Priority</span></dt>
+                <dd>
+                    <span>{{ promotion.priority }}</span>
+                </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.promotionalText">Promotional Text</span></dt>
+                <dd>
+                    <span>{{ promotion.promotionalText }}</span>
+                </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.enabled">Enabled</span></dt>
+                <dd>
+                    <span>{{ promotion.enabled }}</span>
+                </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.isPercent">Is Percent</span></dt>
+                <dd>
+                    <span>{{ promotion.isPercent }}</span>
+                </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.imagen">Imagen</span></dt>
+                <dd>
+                    <div *ngIf="promotion.imagen">
+                        <a (click)="openFile(promotion.imagenContentType, promotion.imagen)">
+                            <img [src]="'data:' + promotion.imagenContentType + ';base64,' + promotion.imagen" style="max-width: 100%;" alt="promotion image"/>
+                        </a>
+                        {{ promotion.imagenContentType }}, {{ byteSize(promotion.imagen) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.isAmount">Is Amount</span></dt>
+                <dd>
+                    <span>{{ promotion.isAmount }}</span>
+                </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.value">Value</span></dt>
+                <dd>
+                    <span>{{ promotion.value }}</span>
+                </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.currency">Currency</span></dt>
+                <dd>
+                    <div *ngIf="promotion.currency">
+                        <a [routerLink]="['/currency', promotion.currency?.id, 'view']">{{ promotion.currency?.simbol }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/promotion', promotion.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

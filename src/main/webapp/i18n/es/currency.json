@@ -1,0 +1,24 @@
+{
+  "promotionsApp": {
+    "currency": {
+      "home": {
+        "title": "Currencies",
+        "createLabel": "Crear nuevo Currency",
+        "createOrEditLabel": "Crear o editar Currency",
+        "notFound": "Ningún Currencies encontrado"
+      },
+      "created": "Un nuevo Currency ha sido creado con el identificador {{ param }}",
+      "updated": "Un Currency ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Currency ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Currency {{ id }}?"
+      },
+      "detail": {
+        "title": "Currency"
+      },
+      "name": "Name",
+      "description": "Description",
+      "simbol": "Simbol"
+    }
+  }
+}

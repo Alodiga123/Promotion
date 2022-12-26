@@ -1,0 +1,57 @@
+
+enum PromotionType{
+	REFERRED, BIRTHDAY, FREQUENT, BY_PRODUCT, REGISTRATION
+}
+
+enum PostionBanner{
+	TOP, CENTER, BUTTON
+}
+
+
+entity Promotion{
+	name String minlength (5) maxlength(45) required,
+    promotionType PromotionType required,
+    creationDate Instant,
+    responsibleDate Instant,
+    beginningDate Instant,
+    endingDate Instant,
+    isExclusive Boolean required,
+    priority Integer required,
+    promotionalText String required,
+    enabled Boolean required,
+    IsPercent Boolean,
+    imagen ImageBlob required,
+    IsAmount Boolean ,
+    value Float  min(0) max (5) required
+}
+
+entity Currency{
+     name String minlength (5) maxlength(45)  required ,
+     description String minlength (5) maxlength(80) required, 
+          simbol String required, 
+     
+}
+
+entity Banner{
+     Name String required,
+     description String required, 
+     position PostionBanner required,
+     imagen ImageBlob required,
+}
+
+relationship ManyToOne {
+	Promotion{currency(simbol)} to Currency
+}
+
+filter Banner, Promotion, Currency
+paginate * with pagination
+
+
+
+
+
+
+
+
+
+

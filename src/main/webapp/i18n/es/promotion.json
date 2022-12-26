@@ -1,0 +1,36 @@
+{
+  "promotionsApp": {
+    "promotion": {
+      "home": {
+        "title": "Promotions",
+        "createLabel": "Crear nuevo Promotion",
+        "createOrEditLabel": "Crear o editar Promotion",
+        "notFound": "Ningún Promotions encontrado"
+      },
+      "created": "Un nuevo Promotion ha sido creado con el identificador {{ param }}",
+      "updated": "Un Promotion ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Promotion ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Promotion {{ id }}?"
+      },
+      "detail": {
+        "title": "Promotion"
+      },
+      "name": "Name",
+      "promotionType": "Promotion Type",
+      "creationDate": "Creation Date",
+      "responsibleDate": "Responsible Date",
+      "beginningDate": "Beginning Date",
+      "endingDate": "Ending Date",
+      "isExclusive": "Is Exclusive",
+      "priority": "Priority",
+      "promotionalText": "Promotional Text",
+      "enabled": "Enabled",
+      "isPercent": "Is Percent",
+      "imagen": "Imagen",
+      "isAmount": "Is Amount",
+      "value": "Value",
+      "currency": "Currency"
+    }
+  }
+}
