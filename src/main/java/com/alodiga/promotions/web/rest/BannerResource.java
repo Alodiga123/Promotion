@@ -1,5 +1,7 @@
 package com.alodiga.promotions.web.rest;
 
+import com.alodiga.promotions.config.ApplicationProperties;
+import com.alodiga.promotions.config.Constants;
 import com.alodiga.promotions.domain.Banner;
 import com.alodiga.promotions.service.BannerService;
 import com.alodiga.promotions.web.rest.errors.BadRequestAlertException;
@@ -9,13 +11,13 @@ import com.alodiga.promotions.service.BannerQueryService;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +25,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
 
 /**
  * REST controller for managing {@link com.alodiga.promotions.domain.Banner}.
@@ -36,6 +43,8 @@ public class BannerResource {
     private final Logger log = LoggerFactory.getLogger(BannerResource.class);
 
     private static final String ENTITY_NAME = "banner";
+    
+    private ApplicationProperties applicationProperties;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
@@ -44,9 +53,10 @@ public class BannerResource {
 
     private final BannerQueryService bannerQueryService;
 
-    public BannerResource(BannerService bannerService, BannerQueryService bannerQueryService) {
+    public BannerResource(BannerService bannerService, BannerQueryService bannerQueryService, ApplicationProperties applicationProperties) {
         this.bannerService = bannerService;
         this.bannerQueryService = bannerQueryService;
+        this.applicationProperties = applicationProperties;
     }
 
     /**
@@ -56,12 +66,31 @@ public class BannerResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new banner, or with status {@code 400 (Bad Request)} if the banner has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    
     @PostMapping("/banners")
     public ResponseEntity<Banner> createBanner(@Valid @RequestBody Banner banner) throws URISyntaxException {
         log.debug("REST request to save Banner : {}", banner);
         if (banner.getId() != null) {
             throw new BadRequestAlertException("A new banner cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        
+        ///////////////Se ingresa la imagen y se guarda la descripcion//////////////////////
+        try {
+            Date date = new Date();
+            String time = String.valueOf(date.getTime());
+            byte[] bytesImg = banner.getImagen();
+            Path rutaCompleta = Paths.get(applicationProperties.getBanner().getSource_image_profile() + "email" + time + Constants.BASE_PROFILE_IMAGE_TEXT);
+            Files.write(rutaCompleta, bytesImg);
+            //Setea la URL de LA IMAGEN pero deber Guardar un imagen Source Nuevo
+            String URL = applicationProperties.getBanner().getAddress_image_profile() + Constants.SPRING_PATH + "email" + time + Constants.BASE_PROFILE_IMAGE_TEXT;
+            banner.setDescription(URL);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(BannerResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          ///////////////Se ingresa la imagen y se guarda la descripcion//////////////////////
+        
+        
+        
         Banner result = bannerService.save(banner);
         return ResponseEntity.created(new URI("/api/banners/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -83,6 +112,23 @@ public class BannerResource {
         if (banner.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        
+                ///////////////Se ingresa la imagen y se guarda la descripcion//////////////////////
+        try {
+            Date date = new Date();
+            String time = String.valueOf(date.getTime());
+            byte[] bytesImg = banner.getImagen();
+            Path rutaCompleta = Paths.get(applicationProperties.getBanner().getSource_image_profile() + "email" + time + Constants.BASE_PROFILE_IMAGE_TEXT);
+            Files.write(rutaCompleta, bytesImg);
+            //Setea la URL de LA IMAGEN pero deber Guardar un imagen Source Nuevo
+            String URL = applicationProperties.getBanner().getAddress_image_profile() + Constants.SPRING_PATH + "email" + time + Constants.BASE_PROFILE_IMAGE_TEXT;
+            banner.setDescription(URL);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(BannerResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          ///////////////Se ingresa la imagen y se guarda la descripcion//////////////////////
+        
+        
         Banner result = bannerService.save(banner);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, banner.getId().toString()))

@@ -1,11 +1,2 @@
 id;name;promotion_type;creation_date;responsible_date;beginning_date;ending_date;is_exclusive;priority;promotional_text;enabled;is_percent;imagen;imagen_content_type;is_amount;value
-1;seize TCP;FREQUENT;2022-12-26T12:19:43;2022-12-26T17:36:13;2022-12-26T21:23:15;2022-12-26T17:57:59;true;59792;Grocery Buckinghamshire;false;true;../fake-data/blob/hipster.png;image/png;true;3
-2;needs-based New Caledonia evolve;BY_PRODUCT;2022-12-26T13:37:55;2022-12-26T17:50:25;2022-12-26T14:15:19;2022-12-26T03:28:14;false;92219;Gloves Pennsylvania Music;false;true;../fake-data/blob/hipster.png;image/png;true;0
-3;Washington Accountability Credit Card Account;BIRTHDAY;2022-12-26T07:56:37;2022-12-26T04:06:43;2022-12-26T14:45:06;2022-12-25T23:35:30;false;46227;Martinique niches Refined;false;true;../fake-data/blob/hipster.png;image/png;false;1
-4;reboot Security;FREQUENT;2022-12-25T22:56:07;2022-12-26T10:06:33;2022-12-26T18:05:00;2022-12-26T06:28:33;false;43966;Metal;true;false;../fake-data/blob/hipster.png;image/png;false;3
-5;Shoes bluetooth Forint;REGISTRATION;2022-12-26T14:25:24;2022-12-26T20:51:14;2022-12-25T23:11:20;2022-12-26T06:07:21;false;10589;synthesizing Tasty Cotton Ball target;false;false;../fake-data/blob/hipster.png;image/png;true;1
-6;Sleek deposit proactive;BY_PRODUCT;2022-12-26T12:02:49;2022-12-26T19:58:09;2022-12-26T20:24:25;2022-12-26T12:13:38;true;60310;Money Market Account;true;false;../fake-data/blob/hipster.png;image/png;false;4
-7;Global;BIRTHDAY;2022-12-26T13:39:44;2022-12-26T07:08:20;2022-12-26T12:30:15;2022-12-26T07:53:16;true;85814;Portugal tan;true;true;../fake-data/blob/hipster.png;image/png;true;4
-8;Shoes Saint Helena;REFERRED;2022-12-26T13:09:30;2022-12-26T15:07:17;2022-12-25T21:53:48;2022-12-26T06:06:44;true;73316;Metal Mobility;false;true;../fake-data/blob/hipster.png;image/png;true;0
-9;Beauty Reduced;REFERRED;2022-12-26T18:40:27;2022-12-26T18:32:44;2022-12-26T09:27:34;2022-12-26T15:30:43;false;99797;Clothing;false;false;../fake-data/blob/hipster.png;image/png;true;1
-10;Savings Account Sleek Wooden Car;BY_PRODUCT;2022-12-26T02:30:20;2022-12-26T07:20:07;2022-12-26T10:29:57;2022-12-26T16:26:39;true;77084;extensible;true;true;../fake-data/blob/hipster.png;image/png;true;4
+1;Programa de Referidos;REFERRED;2022-12-26T12:19:43;2022-12-26T17:36:13;2022-12-26T21:23:15;2022-12-26T17:57:59;true;59792;Promoción de refrido;false;true;../fake-data/blob/hipster.png;image/png;true;3

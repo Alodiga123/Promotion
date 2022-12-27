@@ -1,6 +1,7 @@
 package com.alodiga.promotions;
 
 import com.alodiga.promotions.config.ApplicationProperties;
+import com.alodiga.promotions.service.Constants;
 
 import io.github.jhipster.config.DefaultProfileUtil;
 import io.github.jhipster.config.JHipsterConstants;
@@ -19,17 +20,29 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
+import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.http.CacheControl;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
-public class PromotionsApp {
+@ServletComponentScan(basePackages = "com.alodiga.promotions")
+public class PromotionsApp  implements WebMvcConfigurer {
+
 
     private static final Logger log = LoggerFactory.getLogger(PromotionsApp.class);
 
-    private final Environment env;
 
-    public PromotionsApp(Environment env) {
+    private final Environment env;
+    
+    private ApplicationProperties applicationProperties;
+
+                
+    public PromotionsApp(Environment env, ApplicationProperties applicationProperties) {
         this.env = env;
+        this.applicationProperties = applicationProperties;
     }
 
     /**
@@ -95,4 +108,16 @@ public class PromotionsApp {
             contextPath,
             env.getActiveProfiles());
     }
+
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // Register resource handler for images
+        registry.addResourceHandler(Constants.SPRING_PATH_ALL).addResourceLocations("file:///"+ applicationProperties.banner.getSource_image_profile())
+                .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
+        
+        
+    }
+
+
 }
