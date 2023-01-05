@@ -10,6 +10,8 @@ import java.time.Instant;
 
 import com.alodiga.promotions.domain.enumeration.PromotionType;
 
+import com.alodiga.promotions.domain.enumeration.TipoTransaction;
+
 /**
  * A Promotion.
  */
@@ -75,11 +77,15 @@ public class Promotion implements Serializable {
     @Column(name = "is_amount")
     private Boolean isAmount;
 
-    @NotNull
-    @DecimalMin(value = "0")
-    @DecimalMax(value = "5")
-    @Column(name = "value", nullable = false)
+    @Column(name = "value")
     private Float value;
+
+    @Column(name = "amount")
+    private Float amount;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "transaction_type")
+    private TipoTransaction transactionType;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "promotions", allowSetters = true)
@@ -289,6 +295,32 @@ public class Promotion implements Serializable {
         this.value = value;
     }
 
+    public Float getAmount() {
+        return amount;
+    }
+
+    public Promotion amount(Float amount) {
+        this.amount = amount;
+        return this;
+    }
+
+    public void setAmount(Float amount) {
+        this.amount = amount;
+    }
+
+    public TipoTransaction getTransactionType() {
+        return transactionType;
+    }
+
+    public Promotion transactionType(TipoTransaction transactionType) {
+        this.transactionType = transactionType;
+        return this;
+    }
+
+    public void setTransactionType(TipoTransaction transactionType) {
+        this.transactionType = transactionType;
+    }
+
     public Currency getCurrency() {
         return currency;
     }
@@ -339,6 +371,8 @@ public class Promotion implements Serializable {
             ", imagenContentType='" + getImagenContentType() + "'" +
             ", isAmount='" + isIsAmount() + "'" +
             ", value=" + getValue() +
+            ", amount=" + getAmount() +
+            ", transactionType='" + getTransactionType() + "'" +
             "}";
     }
 }

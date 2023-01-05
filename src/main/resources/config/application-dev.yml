@@ -51,8 +51,8 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/Promotions?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
-    username: admin
-    password: Alodiga.1234
+    username: alodiga
+    password: alodiga
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -86,7 +86,7 @@ spring:
         enabled: true
 
 server:
-  port: 4545
+  port: 7474
 
 # ===================================================================
 # JHipster specific properties

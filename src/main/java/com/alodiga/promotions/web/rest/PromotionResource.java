@@ -1,11 +1,18 @@
 package com.alodiga.promotions.web.rest;
 
 import com.alodiga.promotions.domain.Promotion;
+import com.alodiga.promotions.domain.enumeration.PromotionType;
 import com.alodiga.promotions.service.PromotionService;
 import com.alodiga.promotions.web.rest.errors.BadRequestAlertException;
 import com.alodiga.promotions.service.dto.PromotionCriteria;
+import com.alodiga.promotions.service.dto.PromotionCriteria.PromotionTypeFilter;
+import com.alodiga.promotions.service.dto.PromotionCriteria.TipoTransactionFilter;
+import com.alodiga.promotions.service.request.PromotionCriteriaRequest;
+import com.alodiga.promotions.service.util.GeneralUtils;
 import com.alodiga.promotions.service.PromotionQueryService;
 
+import io.github.jhipster.service.filter.BooleanFilter;
+import io.github.jhipster.service.filter.InstantFilter;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -23,6 +30,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -140,5 +149,34 @@ public class PromotionResource {
         log.debug("REST request to delete Promotion : {}", id);
         promotionService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+    }
+    
+    @PostMapping("/promotions/active")
+    public ResponseEntity<List<Promotion>> getAllPromotionsActive(@Valid @RequestBody PromotionCriteriaRequest request) {
+    	log.debug("REST request to get Promotions Active by criteria: {}");
+    	PromotionCriteria criteria = new PromotionCriteria();
+    	BooleanFilter enabled = new BooleanFilter();
+    	enabled.setEquals(true);
+    	criteria.setEnabled(enabled);
+    	if (request.getPromotionType()!= null) {
+	    	PromotionTypeFilter promotionTypeFilter = new PromotionTypeFilter();
+	    	promotionTypeFilter.setEquals(GeneralUtils.getPromotionType(request.getPromotionType()));
+	    	criteria.setPromotionType(promotionTypeFilter);
+    	}
+    	if (request.getTransactionType()!= null) {
+    		TipoTransactionFilter transactionFilter = new TipoTransactionFilter();
+    		transactionFilter.setEquals(GeneralUtils.getTransactionType(request.getTransactionType()));
+	    	criteria.setTransactionType(transactionFilter);
+    	}
+    	Date date = new Date();
+    	Instant instant = date.toInstant(); 
+    	InstantFilter endingDate = new InstantFilter();
+    	endingDate.setGreaterOrEqualThan(instant);
+    	criteria.setEndingDate(endingDate);
+    	InstantFilter begingingDate = new InstantFilter();
+    	begingingDate.setLessOrEqualThan(instant);
+    	criteria.setBeginningDate(begingingDate);
+        List<Promotion> promotions = promotionQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(promotions);
     }
 }

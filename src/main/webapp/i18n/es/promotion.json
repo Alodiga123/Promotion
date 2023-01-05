@@ -30,6 +30,8 @@
       "imagen": "Imagen",
       "isAmount": "Is Amount",
       "value": "Value",
+      "amount": "Amount",
+      "transactionType": "Transaction Type",
       "currency": "Currency"
     }
   }

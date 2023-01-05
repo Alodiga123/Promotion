@@ -38,7 +38,9 @@ export class PromotionUpdateComponent implements OnInit {
     imagen: [null, [Validators.required]],
     imagenContentType: [],
     isAmount: [],
-    value: [null, [Validators.required, Validators.min(0), Validators.max(5)]],
+    value: [],
+    amount: [],
+    transactionType: [],
     currency: [],
   });
 
@@ -86,6 +88,8 @@ export class PromotionUpdateComponent implements OnInit {
       imagenContentType: promotion.imagenContentType,
       isAmount: promotion.isAmount,
       value: promotion.value,
+      amount: promotion.amount,
+      transactionType: promotion.transactionType,
       currency: promotion.currency,
     });
   }
@@ -155,6 +159,8 @@ export class PromotionUpdateComponent implements OnInit {
       imagen: this.editForm.get(['imagen'])!.value,
       isAmount: this.editForm.get(['isAmount'])!.value,
       value: this.editForm.get(['value'])!.value,
+      amount: this.editForm.get(['amount'])!.value,
+      transactionType: this.editForm.get(['transactionType'])!.value,
       currency: this.editForm.get(['currency'])!.value,
     };
   }

@@ -61,6 +61,12 @@
             <column name="value" type="${floatType}">
                 <constraints nullable="false" />
             </column>
+            <column name="amount" type="${floatType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="transaction_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="currency_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -106,6 +112,8 @@
             <column name="imagen_content_type" type="string"/>
             <column name="is_amount" type="boolean"/>
             <column name="value" type="numeric"/>
+            <column name="amount" type="numeric"/>
+            <column name="transaction_type" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

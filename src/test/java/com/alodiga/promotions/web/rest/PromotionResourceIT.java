@@ -29,6 +29,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.alodiga.promotions.domain.enumeration.PromotionType;
+import com.alodiga.promotions.domain.enumeration.TipoTransaction;
 /**
  * Integration tests for the {@link PromotionResource} REST controller.
  */
@@ -79,9 +80,16 @@ public class PromotionResourceIT {
     private static final Boolean DEFAULT_IS_AMOUNT = false;
     private static final Boolean UPDATED_IS_AMOUNT = true;
 
-    private static final Float DEFAULT_VALUE = 0F;
-    private static final Float UPDATED_VALUE = 1F;
-    private static final Float SMALLER_VALUE = 0F - 1F;
+    private static final Float DEFAULT_VALUE = 1F;
+    private static final Float UPDATED_VALUE = 2F;
+    private static final Float SMALLER_VALUE = 1F - 1F;
+
+    private static final Float DEFAULT_AMOUNT = 1F;
+    private static final Float UPDATED_AMOUNT = 2F;
+    private static final Float SMALLER_AMOUNT = 1F - 1F;
+
+    private static final TipoTransaction DEFAULT_TRANSACTION_TYPE = TipoTransaction.RETIRO_MANUAL;
+    private static final TipoTransaction UPDATED_TRANSACTION_TYPE = TipoTransaction.RECARGA_MANUAL;
 
     @Autowired
     private PromotionRepository promotionRepository;
@@ -122,7 +130,9 @@ public class PromotionResourceIT {
             .imagen(DEFAULT_IMAGEN)
             .imagenContentType(DEFAULT_IMAGEN_CONTENT_TYPE)
             .isAmount(DEFAULT_IS_AMOUNT)
-            .value(DEFAULT_VALUE);
+            .value(DEFAULT_VALUE)
+            .amount(DEFAULT_AMOUNT)
+            .transactionType(DEFAULT_TRANSACTION_TYPE);
         return promotion;
     }
     /**
@@ -147,7 +157,9 @@ public class PromotionResourceIT {
             .imagen(UPDATED_IMAGEN)
             .imagenContentType(UPDATED_IMAGEN_CONTENT_TYPE)
             .isAmount(UPDATED_IS_AMOUNT)
-            .value(UPDATED_VALUE);
+            .value(UPDATED_VALUE)
+            .amount(UPDATED_AMOUNT)
+            .transactionType(UPDATED_TRANSACTION_TYPE);
         return promotion;
     }
 
@@ -185,6 +197,8 @@ public class PromotionResourceIT {
         assertThat(testPromotion.getImagenContentType()).isEqualTo(DEFAULT_IMAGEN_CONTENT_TYPE);
         assertThat(testPromotion.isIsAmount()).isEqualTo(DEFAULT_IS_AMOUNT);
         assertThat(testPromotion.getValue()).isEqualTo(DEFAULT_VALUE);
+        assertThat(testPromotion.getAmount()).isEqualTo(DEFAULT_AMOUNT);
+        assertThat(testPromotion.getTransactionType()).isEqualTo(DEFAULT_TRANSACTION_TYPE);
     }
 
     @Test
@@ -323,25 +337,6 @@ public class PromotionResourceIT {
 
     @Test
     @Transactional
-    public void checkValueIsRequired() throws Exception {
-        int databaseSizeBeforeTest = promotionRepository.findAll().size();
-        // set the field null
-        promotion.setValue(null);
-
-        // Create the Promotion, which fails.
-
-
-        restPromotionMockMvc.perform(post("/api/promotions")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(promotion)))
-            .andExpect(status().isBadRequest());
-
-        List<Promotion> promotionList = promotionRepository.findAll();
-        assertThat(promotionList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllPromotions() throws Exception {
         // Initialize the database
         promotionRepository.saveAndFlush(promotion);
@@ -365,7 +360,9 @@ public class PromotionResourceIT {
             .andExpect(jsonPath("$.[*].imagenContentType").value(hasItem(DEFAULT_IMAGEN_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].imagen").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGEN))))
             .andExpect(jsonPath("$.[*].isAmount").value(hasItem(DEFAULT_IS_AMOUNT.booleanValue())))
-            .andExpect(jsonPath("$.[*].value").value(hasItem(DEFAULT_VALUE.doubleValue())));
+            .andExpect(jsonPath("$.[*].value").value(hasItem(DEFAULT_VALUE.doubleValue())))
+            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].transactionType").value(hasItem(DEFAULT_TRANSACTION_TYPE.toString())));
     }
     
     @Test
@@ -393,7 +390,9 @@ public class PromotionResourceIT {
             .andExpect(jsonPath("$.imagenContentType").value(DEFAULT_IMAGEN_CONTENT_TYPE))
             .andExpect(jsonPath("$.imagen").value(Base64Utils.encodeToString(DEFAULT_IMAGEN)))
             .andExpect(jsonPath("$.isAmount").value(DEFAULT_IS_AMOUNT.booleanValue()))
-            .andExpect(jsonPath("$.value").value(DEFAULT_VALUE.doubleValue()));
+            .andExpect(jsonPath("$.value").value(DEFAULT_VALUE.doubleValue()))
+            .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.doubleValue()))
+            .andExpect(jsonPath("$.transactionType").value(DEFAULT_TRANSACTION_TYPE.toString()));
     }
 
 
@@ -1206,8 +1205,8 @@ public class PromotionResourceIT {
         // Get all the promotionList where value is greater than or equal to DEFAULT_VALUE
         defaultPromotionShouldBeFound("value.greaterThanOrEqual=" + DEFAULT_VALUE);
 
-        // Get all the promotionList where value is greater than or equal to (DEFAULT_VALUE + 1)
-        defaultPromotionShouldNotBeFound("value.greaterThanOrEqual=" + (DEFAULT_VALUE + 1));
+        // Get all the promotionList where value is greater than or equal to UPDATED_VALUE
+        defaultPromotionShouldNotBeFound("value.greaterThanOrEqual=" + UPDATED_VALUE);
     }
 
     @Test
@@ -1232,8 +1231,8 @@ public class PromotionResourceIT {
         // Get all the promotionList where value is less than DEFAULT_VALUE
         defaultPromotionShouldNotBeFound("value.lessThan=" + DEFAULT_VALUE);
 
-        // Get all the promotionList where value is less than (DEFAULT_VALUE + 1)
-        defaultPromotionShouldBeFound("value.lessThan=" + (DEFAULT_VALUE + 1));
+        // Get all the promotionList where value is less than UPDATED_VALUE
+        defaultPromotionShouldBeFound("value.lessThan=" + UPDATED_VALUE);
     }
 
     @Test
@@ -1249,6 +1248,163 @@ public class PromotionResourceIT {
         defaultPromotionShouldBeFound("value.greaterThan=" + SMALLER_VALUE);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllPromotionsByAmountIsEqualToSomething() throws Exception {
+        // Initialize the database
+        promotionRepository.saveAndFlush(promotion);
+
+        // Get all the promotionList where amount equals to DEFAULT_AMOUNT
+        defaultPromotionShouldBeFound("amount.equals=" + DEFAULT_AMOUNT);
+
+        // Get all the promotionList where amount equals to UPDATED_AMOUNT
+        defaultPromotionShouldNotBeFound("amount.equals=" + UPDATED_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPromotionsByAmountIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        promotionRepository.saveAndFlush(promotion);
+
+        // Get all the promotionList where amount not equals to DEFAULT_AMOUNT
+        defaultPromotionShouldNotBeFound("amount.notEquals=" + DEFAULT_AMOUNT);
+
+        // Get all the promotionList where amount not equals to UPDATED_AMOUNT
+        defaultPromotionShouldBeFound("amount.notEquals=" + UPDATED_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPromotionsByAmountIsInShouldWork() throws Exception {
+        // Initialize the database
+        promotionRepository.saveAndFlush(promotion);
+
+        // Get all the promotionList where amount in DEFAULT_AMOUNT or UPDATED_AMOUNT
+        defaultPromotionShouldBeFound("amount.in=" + DEFAULT_AMOUNT + "," + UPDATED_AMOUNT);
+
+        // Get all the promotionList where amount equals to UPDATED_AMOUNT
+        defaultPromotionShouldNotBeFound("amount.in=" + UPDATED_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPromotionsByAmountIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        promotionRepository.saveAndFlush(promotion);
+
+        // Get all the promotionList where amount is not null
+        defaultPromotionShouldBeFound("amount.specified=true");
+
+        // Get all the promotionList where amount is null
+        defaultPromotionShouldNotBeFound("amount.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllPromotionsByAmountIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        promotionRepository.saveAndFlush(promotion);
+
+        // Get all the promotionList where amount is greater than or equal to DEFAULT_AMOUNT
+        defaultPromotionShouldBeFound("amount.greaterThanOrEqual=" + DEFAULT_AMOUNT);
+
+        // Get all the promotionList where amount is greater than or equal to UPDATED_AMOUNT
+        defaultPromotionShouldNotBeFound("amount.greaterThanOrEqual=" + UPDATED_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPromotionsByAmountIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        promotionRepository.saveAndFlush(promotion);
+
+        // Get all the promotionList where amount is less than or equal to DEFAULT_AMOUNT
+        defaultPromotionShouldBeFound("amount.lessThanOrEqual=" + DEFAULT_AMOUNT);
+
+        // Get all the promotionList where amount is less than or equal to SMALLER_AMOUNT
+        defaultPromotionShouldNotBeFound("amount.lessThanOrEqual=" + SMALLER_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPromotionsByAmountIsLessThanSomething() throws Exception {
+        // Initialize the database
+        promotionRepository.saveAndFlush(promotion);
+
+        // Get all the promotionList where amount is less than DEFAULT_AMOUNT
+        defaultPromotionShouldNotBeFound("amount.lessThan=" + DEFAULT_AMOUNT);
+
+        // Get all the promotionList where amount is less than UPDATED_AMOUNT
+        defaultPromotionShouldBeFound("amount.lessThan=" + UPDATED_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPromotionsByAmountIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        promotionRepository.saveAndFlush(promotion);
+
+        // Get all the promotionList where amount is greater than DEFAULT_AMOUNT
+        defaultPromotionShouldNotBeFound("amount.greaterThan=" + DEFAULT_AMOUNT);
+
+        // Get all the promotionList where amount is greater than SMALLER_AMOUNT
+        defaultPromotionShouldBeFound("amount.greaterThan=" + SMALLER_AMOUNT);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllPromotionsByTransactionTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        promotionRepository.saveAndFlush(promotion);
+
+        // Get all the promotionList where transactionType equals to DEFAULT_TRANSACTION_TYPE
+        defaultPromotionShouldBeFound("transactionType.equals=" + DEFAULT_TRANSACTION_TYPE);
+
+        // Get all the promotionList where transactionType equals to UPDATED_TRANSACTION_TYPE
+        defaultPromotionShouldNotBeFound("transactionType.equals=" + UPDATED_TRANSACTION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPromotionsByTransactionTypeIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        promotionRepository.saveAndFlush(promotion);
+
+        // Get all the promotionList where transactionType not equals to DEFAULT_TRANSACTION_TYPE
+        defaultPromotionShouldNotBeFound("transactionType.notEquals=" + DEFAULT_TRANSACTION_TYPE);
+
+        // Get all the promotionList where transactionType not equals to UPDATED_TRANSACTION_TYPE
+        defaultPromotionShouldBeFound("transactionType.notEquals=" + UPDATED_TRANSACTION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPromotionsByTransactionTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        promotionRepository.saveAndFlush(promotion);
+
+        // Get all the promotionList where transactionType in DEFAULT_TRANSACTION_TYPE or UPDATED_TRANSACTION_TYPE
+        defaultPromotionShouldBeFound("transactionType.in=" + DEFAULT_TRANSACTION_TYPE + "," + UPDATED_TRANSACTION_TYPE);
+
+        // Get all the promotionList where transactionType equals to UPDATED_TRANSACTION_TYPE
+        defaultPromotionShouldNotBeFound("transactionType.in=" + UPDATED_TRANSACTION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPromotionsByTransactionTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        promotionRepository.saveAndFlush(promotion);
+
+        // Get all the promotionList where transactionType is not null
+        defaultPromotionShouldBeFound("transactionType.specified=true");
+
+        // Get all the promotionList where transactionType is null
+        defaultPromotionShouldNotBeFound("transactionType.specified=false");
+    }
 
     @Test
     @Transactional
@@ -1291,7 +1447,9 @@ public class PromotionResourceIT {
             .andExpect(jsonPath("$.[*].imagenContentType").value(hasItem(DEFAULT_IMAGEN_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].imagen").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGEN))))
             .andExpect(jsonPath("$.[*].isAmount").value(hasItem(DEFAULT_IS_AMOUNT.booleanValue())))
-            .andExpect(jsonPath("$.[*].value").value(hasItem(DEFAULT_VALUE.doubleValue())));
+            .andExpect(jsonPath("$.[*].value").value(hasItem(DEFAULT_VALUE.doubleValue())))
+            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].transactionType").value(hasItem(DEFAULT_TRANSACTION_TYPE.toString())));
 
         // Check, that the count call also returns 1
         restPromotionMockMvc.perform(get("/api/promotions/count?sort=id,desc&" + filter))
@@ -1352,7 +1510,9 @@ public class PromotionResourceIT {
             .imagen(UPDATED_IMAGEN)
             .imagenContentType(UPDATED_IMAGEN_CONTENT_TYPE)
             .isAmount(UPDATED_IS_AMOUNT)
-            .value(UPDATED_VALUE);
+            .value(UPDATED_VALUE)
+            .amount(UPDATED_AMOUNT)
+            .transactionType(UPDATED_TRANSACTION_TYPE);
 
         restPromotionMockMvc.perform(put("/api/promotions")
             .contentType(MediaType.APPLICATION_JSON)
@@ -1378,6 +1538,8 @@ public class PromotionResourceIT {
         assertThat(testPromotion.getImagenContentType()).isEqualTo(UPDATED_IMAGEN_CONTENT_TYPE);
         assertThat(testPromotion.isIsAmount()).isEqualTo(UPDATED_IS_AMOUNT);
         assertThat(testPromotion.getValue()).isEqualTo(UPDATED_VALUE);
+        assertThat(testPromotion.getAmount()).isEqualTo(UPDATED_AMOUNT);
+        assertThat(testPromotion.getTransactionType()).isEqualTo(UPDATED_TRANSACTION_TYPE);
     }
 
     @Test

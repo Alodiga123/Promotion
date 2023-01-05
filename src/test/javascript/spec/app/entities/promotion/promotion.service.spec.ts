@@ -5,6 +5,7 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { PromotionService } from 'app/entities/promotion/promotion.service';
 import { IPromotion, Promotion } from 'app/shared/model/promotion.model';
 import { PromotionType } from 'app/shared/model/enumerations/promotion-type.model';
+import { TipoTransaction } from 'app/shared/model/enumerations/tipo-transaction.model';
 
 describe('Service Tests', () => {
   describe('Promotion Service', () => {
@@ -41,7 +42,9 @@ describe('Service Tests', () => {
         'image/png',
         'AAAAAAA',
         false,
-        0
+        0,
+        0,
+        TipoTransaction.RETIRO_MANUAL
       );
     });
 
@@ -110,6 +113,8 @@ describe('Service Tests', () => {
             imagen: 'BBBBBB',
             isAmount: true,
             value: 1,
+            amount: 1,
+            transactionType: 'BBBBBB',
           },
           elemDefault
         );
@@ -148,6 +153,8 @@ describe('Service Tests', () => {
             imagen: 'BBBBBB',
             isAmount: true,
             value: 1,
+            amount: 1,
+            transactionType: 'BBBBBB',
           },
           elemDefault
         );

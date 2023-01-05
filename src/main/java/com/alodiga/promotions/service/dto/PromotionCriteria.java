@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import io.github.jhipster.service.Criteria;
 import com.alodiga.promotions.domain.enumeration.PromotionType;
+import com.alodiga.promotions.domain.enumeration.TipoTransaction;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -41,6 +42,24 @@ public class PromotionCriteria implements Serializable, Criteria {
         }
 
     }
+    /**
+     * Class for filtering TipoTransaction
+     */
+    public static class TipoTransactionFilter extends Filter<TipoTransaction> {
+
+        public TipoTransactionFilter() {
+        }
+
+        public TipoTransactionFilter(TipoTransactionFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public TipoTransactionFilter copy() {
+            return new TipoTransactionFilter(this);
+        }
+
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -72,6 +91,10 @@ public class PromotionCriteria implements Serializable, Criteria {
 
     private FloatFilter value;
 
+    private FloatFilter amount;
+
+    private TipoTransactionFilter transactionType;
+
     private LongFilter currencyId;
 
     public PromotionCriteria() {
@@ -92,6 +115,8 @@ public class PromotionCriteria implements Serializable, Criteria {
         this.isPercent = other.isPercent == null ? null : other.isPercent.copy();
         this.isAmount = other.isAmount == null ? null : other.isAmount.copy();
         this.value = other.value == null ? null : other.value.copy();
+        this.amount = other.amount == null ? null : other.amount.copy();
+        this.transactionType = other.transactionType == null ? null : other.transactionType.copy();
         this.currencyId = other.currencyId == null ? null : other.currencyId.copy();
     }
 
@@ -212,6 +237,22 @@ public class PromotionCriteria implements Serializable, Criteria {
         this.value = value;
     }
 
+    public FloatFilter getAmount() {
+        return amount;
+    }
+
+    public void setAmount(FloatFilter amount) {
+        this.amount = amount;
+    }
+
+    public TipoTransactionFilter getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(TipoTransactionFilter transactionType) {
+        this.transactionType = transactionType;
+    }
+
     public LongFilter getCurrencyId() {
         return currencyId;
     }
@@ -245,6 +286,8 @@ public class PromotionCriteria implements Serializable, Criteria {
             Objects.equals(isPercent, that.isPercent) &&
             Objects.equals(isAmount, that.isAmount) &&
             Objects.equals(value, that.value) &&
+            Objects.equals(amount, that.amount) &&
+            Objects.equals(transactionType, that.transactionType) &&
             Objects.equals(currencyId, that.currencyId);
     }
 
@@ -265,6 +308,8 @@ public class PromotionCriteria implements Serializable, Criteria {
         isPercent,
         isAmount,
         value,
+        amount,
+        transactionType,
         currencyId
         );
     }
@@ -287,6 +332,8 @@ public class PromotionCriteria implements Serializable, Criteria {
                 (isPercent != null ? "isPercent=" + isPercent + ", " : "") +
                 (isAmount != null ? "isAmount=" + isAmount + ", " : "") +
                 (value != null ? "value=" + value + ", " : "") +
+                (amount != null ? "amount=" + amount + ", " : "") +
+                (transactionType != null ? "transactionType=" + transactionType + ", " : "") +
                 (currencyId != null ? "currencyId=" + currencyId + ", " : "") +
             "}";
     }

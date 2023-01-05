@@ -4,11 +4,7 @@
     {
       "fieldName": "name",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "minlength",
-        "maxlength",
-        "required"
-      ],
+      "fieldValidateRules": ["minlength", "maxlength", "required"],
       "fieldValidateRulesMinlength": "5",
       "fieldValidateRulesMaxlength": "45"
     },
@@ -16,9 +12,7 @@
       "fieldName": "promotionType",
       "fieldType": "PromotionType",
       "fieldValues": "REFERRED,BIRTHDAY,FREQUENT,BY_PRODUCT,REGISTRATION",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "creationDate",
@@ -39,30 +33,22 @@
     {
       "fieldName": "isExclusive",
       "fieldType": "Boolean",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "priority",
       "fieldType": "Integer",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "promotionalText",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "enabled",
       "fieldType": "Boolean",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "isPercent",
@@ -72,9 +58,7 @@
       "fieldName": "imagen",
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "image",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "isAmount",
@@ -82,14 +66,17 @@
     },
     {
       "fieldName": "value",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "amount",
       "fieldType": "Float",
-      "fieldValidateRules": [
-        "min",
-        "max",
-        "required"
-      ],
-      "fieldValidateRulesMin": "0",
-      "fieldValidateRulesMax": "5"
+      "fieldValidateRules": []
+    },
+    {
+      "fieldName": "transactionType",
+      "fieldType": "TipoTransaction",
+      "fieldValues": "RETIRO_MANUAL,RECARGA_MANUAL,PAGO_A_COMERCIO_QR,TRANSFERENCIA,RETIRO_POR_PAGO_MOVIL"
     }
   ],
   "relationships": [
@@ -111,5 +98,7 @@
   "readOnly": false,
   "embedded": false,
   "clientRootFolder": "",
-  "applications": "*"
+  "applications": "*",
+  "searchEngine": false,
+  "databaseType": "sql"
 }

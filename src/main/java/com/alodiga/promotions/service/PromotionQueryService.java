@@ -124,6 +124,12 @@ public class PromotionQueryService extends QueryService<Promotion> {
             if (criteria.getValue() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getValue(), Promotion_.value));
             }
+            if (criteria.getAmount() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getAmount(), Promotion_.amount));
+            }
+            if (criteria.getTransactionType() != null) {
+                specification = specification.and(buildSpecification(criteria.getTransactionType(), Promotion_.transactionType));
+            }
             if (criteria.getCurrencyId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCurrencyId(),
                     root -> root.join(Promotion_.currency, JoinType.LEFT).get(Currency_.id)));

@@ -37,6 +37,8 @@
                     <th scope="col"  jhiSortBy="imagen"><span jhiTranslate="promotionsApp.promotion.imagen">Imagen</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="isAmount"><span jhiTranslate="promotionsApp.promotion.isAmount">Is Amount</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="value"><span jhiTranslate="promotionsApp.promotion.value">Value</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="amount"><span jhiTranslate="promotionsApp.promotion.amount">Amount</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="transactionType"><span jhiTranslate="promotionsApp.promotion.transactionType">Transaction Type</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="currency.simbol"><span jhiTranslate="promotionsApp.promotion.currency">Currency</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -63,6 +65,8 @@
                     </td>
                     <td>{{ promotion.isAmount }}</td>
                     <td>{{ promotion.value }}</td>
+                    <td>{{ promotion.amount }}</td>
+                    <td jhiTranslate="{{ 'promotionsApp.TipoTransaction.' + promotion.transactionType }}">{{ promotion.transactionType }}</td>
                     <td>
                         <div *ngIf="promotion.currency">
                             <a [routerLink]="['/currency', promotion.currency?.id, 'view']" >{{ promotion.currency?.simbol }}</a>

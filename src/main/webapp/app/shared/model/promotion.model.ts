@@ -1,6 +1,7 @@
 import { Moment } from 'moment';
 import { ICurrency } from 'app/shared/model/currency.model';
 import { PromotionType } from 'app/shared/model/enumerations/promotion-type.model';
+import { TipoTransaction } from 'app/shared/model/enumerations/tipo-transaction.model';
 
 export interface IPromotion {
   id?: number;
@@ -19,6 +20,8 @@ export interface IPromotion {
   imagen?: any;
   isAmount?: boolean;
   value?: number;
+  amount?: number;
+  transactionType?: TipoTransaction;
   currency?: ICurrency;
 }
 
@@ -40,6 +43,8 @@ export class Promotion implements IPromotion {
     public imagen?: any,
     public isAmount?: boolean,
     public value?: number,
+    public amount?: number,
+    public transactionType?: TipoTransaction,
     public currency?: ICurrency
   ) {
     this.isExclusive = this.isExclusive || false;

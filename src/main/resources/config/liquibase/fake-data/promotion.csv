@@ -1,2 +1,2 @@
-id;name;promotion_type;creation_date;responsible_date;beginning_date;ending_date;is_exclusive;priority;promotional_text;enabled;is_percent;imagen;imagen_content_type;is_amount;value
-1;Programa de Referidos;REFERRED;2022-12-26T12:19:43;2022-12-26T17:36:13;2022-12-26T21:23:15;2022-12-26T17:57:59;true;59792;Promoción de refrido;false;true;../fake-data/blob/hipster.png;image/png;true;3
+id;name;promotion_type;creation_date;responsible_date;beginning_date;ending_date;is_exclusive;priority;promotional_text;enabled;is_percent;imagen;imagen_content_type;is_amount;value;amount;transaction_type
+1;Programa de Referidos;REFERRED;2022-12-26T12:19:43;2022-12-26T17:36:13;2022-12-26T21:23:15;2022-12-26T17:57:59;true;59792;Promoción de refrido;false;false;../fake-data/blob/hipster.png;image/png;true;100;500;PAGO_A_COMERCIO_QR

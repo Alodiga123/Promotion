@@ -69,6 +69,14 @@
                 <dd>
                     <span>{{ promotion.value }}</span>
                 </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.amount">Amount</span></dt>
+                <dd>
+                    <span>{{ promotion.amount }}</span>
+                </dd>
+                <dt><span jhiTranslate="promotionsApp.promotion.transactionType">Transaction Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'promotionsApp.TipoTransaction.' + promotion.transactionType }}">{{ promotion.transactionType }}</span>
+                </dd>
                 <dt><span jhiTranslate="promotionsApp.promotion.currency">Currency</span></dt>
                 <dd>
                     <div *ngIf="promotion.currency">
