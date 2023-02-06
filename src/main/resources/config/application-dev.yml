@@ -22,7 +22,6 @@ logging:
     ROOT: DEBUG
     io.github.jhipster: DEBUG
     com.alodiga.promotions: DEBUG
-   
 
 eureka:
   instance:
@@ -51,8 +50,8 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/Promotions?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
-    username: alodiga
-    password: alodiga
+    username: root
+    password: D*123456
     hikari:
       poolName: Hikari
       auto-commit: false

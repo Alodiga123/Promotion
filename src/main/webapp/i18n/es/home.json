@@ -1,19 +1,19 @@
 {
   "home": {
-    "title": "¡Bienvenido, Java Hipster!",
-    "subtitle": "Esta es su página de inicio",
+    "title": "¡Bienvenido, a Zacco módulo Promotions!",
+    "subtitle": "",
     "logged": {
       "message": "Está conectado como \"{{username}}\"."
     },
-    "question": "Si tiene preguntas sobre JHipster:",
+    "question": "Si tiene preguntas sobre Zacco:",
     "link": {
-      "homepage": "Página de inicio de JHipster",
-      "stackoverflow": "JHipster en Stack Overflow",
-      "bugtracker": "JHipster seguimiento de errores",
-      "chat": "Sala de chat pública de JHipster",
-      "follow": "contacto @jhipster en Twitter"
+      "homepage": "Página de inicio de Zacco",
+      "stackoverflow": "Zacco en Stack Overflow",
+      "bugtracker": "Zacco seguimiento de errores",
+      "chat": "Sala de chat pública de Zacco",
+      "follow": "contacto @Zacco en Twitter"
     },
-    "like": "Si te gusta JHipster, danos una estrella en",
-    "github": "GitHub"
+    "like": "Copyright 2022 - Zacco, C.A. Todos los derechos reservados| Desarrollado por Zacco",
+    "github": ""
   }
 }
